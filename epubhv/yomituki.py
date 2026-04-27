@@ -79,32 +79,11 @@ def hantei_cantonese(word):
 
 
 def cut_end(text, hira):
-    if text[-1] == hira[-1]:
-        for i in range(1, min(len(hira), len(text))):
-            if text[-i - 1] != hira[-i - 1]:
-                yield text[:-i], hira[:-i]
-                yield hira[-i:]
-                break
-    else:
-        yield text, hira
+    pass
 
 
 def yomituki(sentence, lang="zh"):
-    assert lang in ["zh", "zh-cn", "zh-tw", "ja", "cantonese"], "Language must zh or ja"
-    if lang in ["zh", "zh-cn"]:
-        words_list = jieba.cut(sentence)
-        hantei = hantei_chinese
-    elif lang == "ja":
-        words_list = tagger(sentence)
-        hantei = hantei_japanese
-    elif lang in ["cantonese"]:
-        words_list = get_jyutping_list(sentence)
-        hantei = hantei_cantonese
-    for text, ruby, yomi in map(hantei, words_list):
-        if ruby:
-            yield from cut_end(text, yomi)
-        else:
-            yield text
+    pass
 
 
 def ruby_wrap(text, yomi):
@@ -112,9 +91,7 @@ def ruby_wrap(text, yomi):
 
 
 def tag_wrap(name, str):
-    new_tag = basesoup.new_tag(name)
-    new_tag.append(str)
-    return new_tag
+    pass
 
 
 def ruby_text(text, lang="zh"):
@@ -127,40 +104,13 @@ class RubySoup:
         self.ruby_language = ruby_language
 
     def ruby_soup(self, soup):
-        for i in soup.children:
-            if i is not None and type(i) is NavigableString and i.strip():
-                new_i = basesoup.new_tag("temptag")
-                # mecab will ignore some whitespace,so we handle it here
-                for ele in white_space_re.split(i):
-                    if ele.strip():
-                        for ele2 in self.ruby_navigablestring(ele):
-                            new_i.append(ele2)
-                i.replace_with(new_i)
-                new_i.unwrap()
-            elif isinstance(i, Tag) and i.name not in ("ruby", "rt", "rp"):
-                self.ruby_soup(i)
+        pass
 
     def ruby_navigablestring(self, navigablestring):
-        yomi = yomituki(str(navigablestring), lang=self.ruby_language)
-        for k, g in groupby(yomi, lambda x: type(x)):
-            if k is None:
-                continue
-            elif k == str:
-                yield "".join(g)
-            else:
-                yield self.ruby_wraps_bs4(g)
+        pass
 
     def ruby_wrap_bs4(self, text, yomi):
         pass
 
     def ruby_wraps_bs4(self, yomis):
-        ruby_tag = basesoup.new_tag("ruby")
-        for text, yomi in yomis:
-            ruby_tag.append(text)
-            rt_tag = tag_wrap("rt", yomi)
-            if self.is_ruby_rp:
-                ruby_tag.append(tag_wrap("rp", "("))
-            ruby_tag.append(rt_tag)
-            if self.is_ruby_rp:
-                ruby_tag.append(tag_wrap("rp", ")"))
-        return ruby_tag
+        pass
