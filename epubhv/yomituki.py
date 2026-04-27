@@ -57,51 +57,25 @@ basesoup = BeautifulSoup("<b></b>", "lxml", string_containers=string_containers)
 
 
 def point_ruby_to_blod(soup):
-    for ruby in soup.find_all("ruby"):
-        rt = ruby.rt.string.strip()
-        if rt in "・" * 100:
-            rep = basesoup.new_tag("b")
-            rep.string = ruby.text
-            ruby.replace_with(rep)
+    pass
 
 
 def kata2hira(str):
-    return str.translate(k2h)
+    pass
 
 
 def hantei_japanese(word):
-    text = word.surface
-    kana = word.feature.kana
-    lemma = word.feature.lemma or ""
-    # for English hint
-    if "-" in lemma:
-        english_text = re.sub(r"[^a-zA-Z\s]", "", lemma.split("-")[1])
-        if english_text:
-            return text, True, english_text
-    if text == kana or kana in (None, "", "*") or text in (None, "", "*"):
-        return text, False, None
-    hira = kata2hira(str(kana))
-    if text == hira:
-        return text, False, None
-    else:
-        return text, True, hira
+    pass
 
 
 def hantei_chinese(word):
     # follow the old api for Chinese pinyin
-    pin = " "
-    for wordt in pinyin(word):
-        pin = " " + pin + " " + wordt[0]
-    pin += " "
-    return word, True, pin
+    pass
 
 
 def hantei_cantonese(word):
     # follow the old api for Chinese pinyin for cantonese
-    if word[1] is not None:
-        return word[0], True, word[1] + ", "
-    else:
-        return word[0], False, None
+    pass
 
 
 def cut_end(text, hira):
@@ -134,7 +108,7 @@ def yomituki(sentence, lang="zh"):
 
 
 def ruby_wrap(text, yomi):
-    return f"<ruby>{text}<rp>（</rp><rt>{yomi}</rt><rp>）</rp></ruby>"
+    pass
 
 
 def tag_wrap(name, str):
@@ -144,18 +118,7 @@ def tag_wrap(name, str):
 
 
 def ruby_text(text, lang="zh"):
-    plain = ""
-    if len(text) < 1:
-        return plain
-    yomi = yomituki(text, lang=lang)
-    for i in yomi:
-        if i in (None, ""):
-            continue
-        if isinstance(i, str):
-            plain += i
-        else:
-            plain += ruby_wrap(*i)
-    return plain
+    pass
 
 
 class RubySoup:
@@ -188,15 +151,7 @@ class RubySoup:
                 yield self.ruby_wraps_bs4(g)
 
     def ruby_wrap_bs4(self, text, yomi):
-        ruby_tag = basesoup.new_tag("ruby")
-        ruby_tag.append(text)
-        rt_tag = tag_wrap("rt", yomi)
-        if self.is_ruby_rp:
-            ruby_tag.append(tag_wrap("rp", "("))
-        ruby_tag.append(rt_tag)
-        if self.is_ruby_rp:
-            ruby_tag.append(tag_wrap("rp", ")"))
-        return ruby_tag
+        pass
 
     def ruby_wraps_bs4(self, yomis):
         ruby_tag = basesoup.new_tag("ruby")
